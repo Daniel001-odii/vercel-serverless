@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const serverless = require("serverless-http");
 const app = express();
 
-const serverless = require("serverless-http");
+
 const router = express.Router();
 
 
@@ -32,12 +32,12 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Routes
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   const users = await User.find({});
   res.render('index', { users });
 });
 
-app.post('/add', async (req, res) => {
+router.post('/add', async (req, res) => {
   const { username, email, age } = req.body;
   const user = new User({ username, email, age });
   await user.save();
@@ -45,9 +45,9 @@ app.post('/add', async (req, res) => {
 });
 
 // Start the server
-const PORT = 3000;
+/* const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
+ */
 module.exports.handler = serverless(app);
