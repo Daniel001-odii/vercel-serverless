@@ -1,23 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const serverless = require("serverless-http");
+
 const app = express();
-
-
-const router = express.Router();
-
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // For static files
 app.set('view engine', 'ejs');
 
-app.use("/.netlify/functions/app", router);
-
-
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://admin:admin@cluster0.3rg9h4v.mongodb.net/userDB', {
+mongoose.connect('mongodb://127.0.0.1:27017/userDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -32,12 +25,12 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Routes
-router.get('/', async (req, res) => {
+app.get('/', async (req, res) => {
   const users = await User.find({});
   res.render('index', { users });
 });
 
-router.post('/add', async (req, res) => {
+app.post('/add', async (req, res) => {
   const { username, email, age } = req.body;
   const user = new User({ username, email, age });
   await user.save();
@@ -45,9 +38,9 @@ router.post('/add', async (req, res) => {
 });
 
 // Start the server
-/* const PORT = 3000;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
- */
-module.exports.handler = serverless(app);
+
+module.exports = app;
