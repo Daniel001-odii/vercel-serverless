@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-
+const path = require('path');
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // For static files
+
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Connect to MongoDB

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User App</title>
+</head>
+<body>
+  <h1>User List</h1>
+  <ul>
+    <% users.forEach(user => { %>
+      <li><%= user.username %> - <%= user.email %> - <%= user.age %></li>
+    <% }) %>
+  </ul>
+
+  <h2>Add New User</h2>
+  <form action="/add" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required><br>
+    <button type="submit">Add User</button>
+  </form>
+</body>
+</html>
+
+
+<!-- mongodb+srv://admin:admin@cluster0.3rg9h4v.mongodb.net/ -->
